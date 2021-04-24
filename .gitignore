@@ -11,3 +11,6 @@
 .rspec_status
 tag*
 TAG*
+.byebug_history
+.DS_Store
+screenshot*.jpg
