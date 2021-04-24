@@ -25,9 +25,14 @@ module Docapurl
 
       browser.go_to(url)
       logger.info 'visited'
-      # sleep 1
       max_pagedown = options[:max_pagedown] || 5
       visit_whole_page(browser, max_pagedown: max_pagedown)
+
+      sleep_before_screen = options.delete :sleep_before_screen
+      logger.info "sleep #{sleep_before_screen.to_i} second before screen"
+      sleep(sleep_before_screen.to_i)
+
+
       browser.screenshot(**options)
       logger.info "screenshot ended, path = #{options[:path]}"
     end
