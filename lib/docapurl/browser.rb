@@ -6,7 +6,7 @@ module Docapurl
     SYSTEM_MAX_PAGE_DOWN_TO_BOTTOM = 50
     attr_accessor :browser, :save_path, :logger
 
-    def initialize(**options)
+    def initialize(options)
       @save_path = options[:save_path]
       options[:timeout] ||= 30
 
@@ -15,7 +15,7 @@ module Docapurl
       @browser = Ferrum::Browser.new options
     end
 
-    def cap(url, **options)
+    def cap(url, options)
 
       options[:quality] ||= 90
       options[:full] = true if options[:full].nil?
@@ -69,8 +69,7 @@ module Docapurl
 
     class << self
       def cap(url, path = nil, browser_options = {}, cap_options = {})
-        byebug
-        browser = new(**browser_options)
+        browser = new(browser_options)
         cap_options[:path] = path
         browser.cap(url, cap_options)
       rescue StandardError => e
