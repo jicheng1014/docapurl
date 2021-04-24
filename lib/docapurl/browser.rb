@@ -3,6 +3,7 @@ require 'logger'
 
 module Docapurl
   class Browser
+    SYSTEM_MAX_PAGE_DOWN_TO_BOTTOM = 50
     attr_accessor :browser, :save_path, :logger
 
     def initialize(**options)
@@ -26,12 +27,12 @@ module Docapurl
       browser.go_to(url)
       logger.info 'visited'
       max_pagedown = options[:max_pagedown] || 5
-      visit_whole_page(browser, max_pagedown: max_pagedown)
+      pagedown_to_bottom = options.delete :pagedown_to_bottom
+      visit_whole_page(browser, max_pagedown: max_pagedown, pagedown_to_bottom: pagedown_to_bottom)
 
       sleep_before_screen = options.delete :sleep_before_screen
       logger.info "sleep #{sleep_before_screen.to_i} second before screen"
       sleep(sleep_before_screen.to_i)
-
 
       browser.screenshot(**options)
       logger.info "screenshot ended, path = #{options[:path]}"
@@ -44,15 +45,19 @@ module Docapurl
       browser.quit
     end
 
-    def visit_whole_page(browser, page: nil, max_pagedown: nil)
+    def visit_whole_page(browser, page: nil, max_pagedown: nil, pagedown_to_bottom: false)
       page ||= browser.page
       viewport_height = page.viewport_size.last.to_i
       document_height = page.document_size.last.to_i
       return if document_height<= viewport_height
 
       page_down_count = document_height / viewport_height
+      if pagedown_to_bottom
+        page_down_count = SYSTEM_MAX_PAGE_DOWN_TO_BOTTOM if page_down_count >SYSTEM_MAX_PAGE_DOWN_TO_BOTTOM
+      else
+        page_down_count = max_pagedown if page_down_count > max_pagedown
 
-      page_down_count = max_pagedown if page_down_count > max_pagedown
+      end
 
       page_down_count.times do
         logger.info "press PageDown .."
