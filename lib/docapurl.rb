@@ -20,12 +20,13 @@ module Docapurl
         xvfb: options.xvfb,
         headless: options.headless,
         browser_path: options.browser_path
-      }.reject! { |_, v| v.nil? }
+      }.reject { |_, v| v.nil? }
 
       Docapurl::Browser.cap(url, path, browser_options,
         {max_pagedown: options.max_pagedown,
           sleep_before_screen: options.sleep_before_screen,
           pagedown_to_bottom: options.pagedown_to_bottom
+
           })
     end
   end

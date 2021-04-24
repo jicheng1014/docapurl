@@ -69,11 +69,12 @@ module Docapurl
 
     class << self
       def cap(url, path = nil, browser_options = {}, cap_options = {})
+        byebug
         browser = new(**browser_options)
         cap_options[:path] = path
         browser.cap(url, cap_options)
       rescue StandardError => e
-        logger.error e
+        browser.logger.error e
       ensure
         browser&.close
       end
