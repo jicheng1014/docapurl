@@ -1,6 +1,8 @@
 # Docapurl
 
 A tool to screenshot the webpage on terminal.
+
+[chinese_readme 中文说明](https://github.com/jicheng1014/docapurl/blob/master/CH_README.md)
 ## Installation
 
 Add this line to your application's Gemfile:
