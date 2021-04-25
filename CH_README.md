@@ -1,33 +1,24 @@
 # Docapurl
+一个ruby的命令行截图网页的工具
 
-A tool to screenshot the webpage on terminal.
-## Installation
+## 安装
 
-Add this line to your application's Gemfile:
+gem install docapurl
 
-```ruby
-gem 'docapurl'
-```
+## 前置条件
 
-And then execute:
+- ruby 环境
+- chrome
 
-    $ bundle
+需要安装chrome 浏览器, 并推荐把chrome的path 加入到环境变量PATH 或者 BROWSER_PATH 中
 
-Or install it yourself as:
-
-    $ gem install docapurl
-## Prerequisites
-
-Chrome browser is required.
-By the default, docapurl will invoke chrome in `PATH` ENV or ENV `BROWSER_PATH`
-
-## Usage
+## 使用方式
 
 on terminal
 
 `docapurl cap [url] [image_path]`
 
-use `docapurl help cap` to know more details
+使用 `docapurl help cap` 获得更多帮助
 
 ## Example
 
@@ -37,32 +28,30 @@ use `docapurl help cap` to know more details
 
 ## FAQ
 
--  Why docapurl needs chrome and where to download Chrome?
+-  为啥docapurl 需要 chrome 以及在哪下载chrome?
 
-Because docapurl just encapsulates functions from ferrum gem, and ferrum depends on headless Chrome.
-There's no official Chrome or Chromium package for Linux don't install it this way because it's either outdated or unofficial, both are bad. Download it from official https://www.chromium.org/getting-involved/download-chromium
+因为 docapurl 封装了 ferrum gem 的一些截图功能, 而 ferrum 依赖于 headless Chrome .
+linux 的chrome 一般都不太靠谱, 所以在这里下载官方的 https://www.chromium.org/getting-involved/download-chromium
 
-For mac and windows, u can download Chrome from https://www.google.com/chrome/.
+windows 和mac 用户, 则可以在这里下载 https://www.google.com/chrome/.
 
+下载安装完毕 chrome 后, 强烈建议将浏览器path 加入到 path 变量中
 
+- 我能否跳过加入浏览器path 到 env PATH 中呢?
 
-- Could i skip  adding browser path to ENV path?
-
-Yes, use param `--browser-path=you-path/to/chrome`
-
-
-- Could use it on aws EC2 or aliyun ECS servers?
-
-Yes, but u should installed chrome on serverw first.
+可以, 只不过在使用截图时, 需要指定浏览器path `--browser-path=you-path/to/chrome`
 
 
-- Why some images in the page didn't show in the screenshot?
+- 能否在 EC2 或者 ECS 上用?
 
-Because the website may use lazy loading technology to the images, the images loaded when the images in browser viewscreen.
-docapurl invokes keyborard PageDown 5 times default. use param `--pagedown-to-bottom` could ensure all images load happen.
+可以, 只不过你要在机器中先装好 Chrome
+
+特别提示, AWS ec2 上没中文字体, 需要安装中文字体如果你截图到是中文网页的话.
 
 
+- 为啥截图网页的时候 网页底部有些图片没有出来?
 
+因为这个网页可能使用了懒加载图片的技术, 需要图片在浏览器视区内才进行加载, cap 默认 5次 pageDown 如果你想确保都加载, 请使用 --pagedown-to-bottom 参数
 
 ## Development
 
