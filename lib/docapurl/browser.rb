@@ -31,10 +31,13 @@ module Docapurl
       visit_whole_page(browser, max_pagedown: max_pagedown, pagedown_to_bottom: pagedown_to_bottom)
 
       sleep_before_screen = options.delete :sleep_before_screen
-      logger.info "sleep #{sleep_before_screen.to_i} second before screen"
+      logger.info "sleep #{sleep_before_screen.to_i} second before screenshot"
       sleep(sleep_before_screen.to_i)
 
+      before_screenshot_func = options.delete :before_screenshot_func
+      before_screenshot_func.call(self) unless before_screenshot_func.nil?
       browser.screenshot(**options)
+
       logger.info "screenshot ended, path = #{options[:path]}"
     end
 
