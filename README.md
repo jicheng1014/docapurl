@@ -37,6 +37,12 @@ use `docapurl help cap` to know more details
  docapurl cap https:/www.bilibili.com 1.jpg --pagedown-to-bottom
 ```
 
+or if u wanna know more details on screenshot
+
+```
+ docapurl cap https:/www.bilibili.com 1.jpg --pagedown-to-bottom --no-headless
+```
+
 ## FAQ
 
 -  Why docapurl needs chrome and where to download Chrome?
