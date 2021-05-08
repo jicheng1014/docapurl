@@ -6,7 +6,7 @@ A tool to screenshot the webpage on terminal.
 
 ## Capture url as a Service
 
-[https://www.urlprint.com](https://https://www.urlprint.com) provides the capture url service, REST API supported.
+[https://www.urlprint.com](https://www.urlprint.com) provides the capture url service, REST API supported.
 
 
 
