@@ -3,6 +3,13 @@
 A tool to screenshot the webpage on terminal.
 
 [chinese_readme 中文说明](https://github.com/jicheng1014/docapurl/blob/master/CH_README.md)
+
+## Capture url as a Service
+
+[https://www.urlprint.com](https://www.urlprint.com) provides the capture url service, REST API supported.
+
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
