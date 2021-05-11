@@ -24,7 +24,11 @@ module Docapurl
       options[:path] ||= "screenshot-#{host.to_s == '' ? '' : "#{host}-"}#{Time.now.strftime('%F-%T')}.jpg"
       logger.info "browser begin to visit url #{url}"
 
+      set_callback("before_visit_func", options)
       browser.go_to(url)
+      set_callback("after_visit_func", options)
+
+
       logger.info 'visited'
       max_pagedown = options[:max_pagedown] || 5
       pagedown_to_bottom = options.delete :pagedown_to_bottom
@@ -34,9 +38,10 @@ module Docapurl
       logger.info "sleep #{sleep_before_screen.to_i} second before screenshot"
       sleep(sleep_before_screen.to_i)
 
-      before_screenshot_func = options.delete :before_screenshot_func
-      before_screenshot_func.call(self) unless before_screenshot_func.nil?
+
+      set_callback("before_screenshot_func", options)
       browser.screenshot(**options)
+      set_callback("after_screenshot_func", options)
 
       logger.info "screenshot ended, path = #{options[:path]}"
     end
@@ -69,6 +74,14 @@ module Docapurl
       logger.info "press HOME .."
       browser.keyboard.type(:Home)
     end
+
+    private
+
+    def set_callback(name, options)
+      the_funcion = options.delete name
+      the_funcion.call(self) unless the_funcion.nil?
+    end
+
 
     class << self
       def cap(url, path = nil, browser_options = {}, cap_options = {})
