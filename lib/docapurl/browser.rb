@@ -78,8 +78,12 @@ module Docapurl
     private
 
     def set_callback(name, options)
-      the_funcion = options.delete name
-      the_funcion.call(self) unless the_funcion.nil?
+      the_function = options.delete name
+      if the_function.nil?
+        the_function = options.delete name.to_sym
+      end
+
+      the_function.call(self) unless the_function.nil?
     end
 
 
