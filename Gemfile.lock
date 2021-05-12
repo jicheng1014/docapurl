@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    docapurl (0.2.1)
+    docapurl (0.2.2)
       ferrum (~> 0.11)
       thor
 
