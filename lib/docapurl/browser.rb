@@ -4,7 +4,7 @@ require 'logger'
 module Docapurl
   class Browser
     SYSTEM_MAX_PAGE_DOWN_TO_BOTTOM = 50
-    attr_accessor :browser, :save_path, :logger, :context
+    attr_accessor :browser, :save_path, :logger, :context, :page
 
     def initialize(options)
       @save_path = options[:save_path]
@@ -14,11 +14,11 @@ module Docapurl
       @logger = options[:logger] || Logger.new(STDOUT)
       @browser = Ferrum::Browser.new options
       @context = browser.contexts.create
+      @page = @context.create_page
       yield(self) if block_given?
     end
 
     def cap(url, options)
-      page = @context.create_page
       options[:quality] ||= 90
       options[:full] = true if options[:full].nil?
       options[:path] ||= @save_path
@@ -34,7 +34,7 @@ module Docapurl
       logger.info 'visited'
       max_pagedown = options[:max_pagedown] || 5
       pagedown_to_bottom = options.delete :pagedown_to_bottom
-      visit_whole_page(browser, page: page, max_pagedown: max_pagedown, pagedown_to_bottom: pagedown_to_bottom)
+      visit_whole_page(page: page, max_pagedown: max_pagedown, pagedown_to_bottom: pagedown_to_bottom)
 
       sleep_before_screen = options.delete :sleep_before_screen
       logger.info "sleep #{sleep_before_screen.to_i} second before screenshot"
@@ -56,8 +56,7 @@ module Docapurl
       browser.quit
     end
 
-    def visit_whole_page(browser, page: nil, max_pagedown: nil, pagedown_to_bottom: false)
-      page ||= browser.page
+    def visit_whole_page( page: nil, max_pagedown: nil, pagedown_to_bottom: false)
       viewport_height = page.viewport_size.last.to_i
       document_height = page.document_size.last.to_i
       return if document_height<= viewport_height
